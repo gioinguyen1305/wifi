@@ -49,8 +49,8 @@ biases = {'out': tf.Variable(tf.random_normal([1]))}
 
 def RNN(x, weights, biases):
     x = tf.unstack(x, 3, 1)
-    gru_cell = tf.contrib.rnn.GRUBlockCellV2(100)
-    outputs, states = rnn.static_rnn(gru_cell, x, dtype=tf.float32)
+    rnn_cell = tf.contrib.rnn.BasicRNNCell(100)
+    outputs, states = rnn.static_rnn(rnn_cell, x, dtype=tf.float32)
     return tf.matmul(outputs[-1], weights['out']) + biases['out']
 
 logits = RNN(X, weights, biases)

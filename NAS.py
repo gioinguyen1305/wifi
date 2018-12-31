@@ -49,8 +49,8 @@ biases = {'out': tf.Variable(tf.random_normal([1]))}
 
 def RNN(x, weights, biases):
     x = tf.unstack(x, 3, 1)
-    gru_cell = tf.contrib.rnn.GRUBlockCellV2(100)
-    outputs, states = rnn.static_rnn(gru_cell, x, dtype=tf.float32)
+    nas_cell = tf.contrib.rnn.NASCell(100)
+    outputs, states = rnn.static_rnn(nas_cell, x, dtype=tf.float32)
     return tf.matmul(outputs[-1], weights['out']) + biases['out']
 
 logits = RNN(X, weights, biases)
@@ -78,3 +78,4 @@ with tf.Session() as sess:
     loss, pre= sess.run([loss_op,logits], feed_dict={X: data_test,     Y: label_test})
     acc = 1-(np.square(np.abs(pre - label_test)) ).mean()
     print ('Loss: %.8f   Accuracy: %.8f ' % (loss,acc))
+
